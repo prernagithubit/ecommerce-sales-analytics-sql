@@ -61,3 +61,17 @@ CREATE TABLE order_items (
         FOREIGN KEY (product_id)
         REFERENCES products(product_id)
 );
+CREATE TABLE payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    payment_method ENUM('Credit Card', 'Debit Card', 'UPI', 'Net Banking', 'Cash on Delivery')
+        NOT NULL,
+    payment_status ENUM('Pending', 'Completed', 'Failed', 'Refunded')
+        DEFAULT 'Pending',
+    payment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    amount DECIMAL(12, 2) NOT NULL,
+
+    CONSTRAINT fk_payments_order
+        FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
+);
