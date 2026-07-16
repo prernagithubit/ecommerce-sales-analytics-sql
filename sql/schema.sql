@@ -32,4 +32,17 @@ CREATE TABLE products (
     CONSTRAINT fk_products_category
         FOREIGN KEY (category_id)
         REFERENCES categories(category_id)
+
 )
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    order_status ENUM('Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled')
+        DEFAULT 'Pending',
+    total_amount DECIMAL(12, 2) NOT NULL,
+    
+    CONSTRAINT fk_orders_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers(customer_id)
+);
