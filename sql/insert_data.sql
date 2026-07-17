@@ -36,4 +36,19 @@ VALUES
 ('Non-Stick Cookware Set', 3, 3499.00, 35, 4.5),
 ('SQL Programming Book', 4, 899.00, 80, 4.8),
 ('Python Data Science Book', 4, 1299.00, 65, 4.7),
-('Face Moisturizer', 5, 599.00, 90, 4.2);cd ~/Documents/ecommerce-sales-analytics-sql
+('Face Moisturizer', 5, 599.00, 90, 4.2);
+
+INSERT INTO orders
+(customer_id, order_date, order_status, total_amount)
+VALUES
+(1, '2026-01-05 10:30:00', 'Delivered', 2999.00),
+(2, '2026-01-08 14:15:00', 'Delivered', 24999.00),
+(3, '2026-01-12 09:45:00', 'Shipped', 64999.00),
+(4, '2026-01-18 16:20:00', 'Delivered', 2798.00),
+(5, '2026-02-02 11:10:00', 'Processing', 5999.00),
+(6, '2026-02-10 13:40:00', 'Delivered', 4499.00),
+(7, '2026-02-15 17:30:00', 'Cancelled', 2999.00),
+(8, '2026-02-22 10:05:00', 'Shipped', 3499.00),
+(9, '2026-03-01 15:50:00', 'Delivered', 1299.00),
+(10, '2026-03-05 12:25:00', 'Pending', 599.00);
+
