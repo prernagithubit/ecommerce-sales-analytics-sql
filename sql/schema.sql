@@ -75,3 +75,17 @@ CREATE TABLE payments (
         FOREIGN KEY (order_id)
         REFERENCES orders(order_id)
 );
+
+INSERT INTO payments
+(order_id, payment_method, payment_status, amount)
+VALUES
+(1, 'UPI', 'Completed', 2999.00),
+(2, 'Credit Card', 'Completed', 24999.00),
+(3, 'Debit Card', 'Completed', 64999.00),
+(4, 'UPI', 'Completed', 2798.00),
+(5, 'Credit Card', 'Pending', 5999.00),
+(6, 'Net Banking', 'Completed', 4499.00),
+(7, 'UPI', 'Refunded', 2999.00),
+(8, 'Debit Card', 'Completed', 3499.00),
+(9, 'UPI', 'Completed', 1299.00),
+(10, 'Cash on Delivery', 'Pending', 599.00);
