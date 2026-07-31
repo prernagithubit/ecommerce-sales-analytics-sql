@@ -68,3 +68,14 @@ GROUP BY
     c.category_name
 ORDER BY
     total_revenue DESC;
+
+-- Query 6: Products Never Ordered
+
+SELECT
+    p.product_id,
+    p.product_name,
+    p.price
+FROM products p
+LEFT JOIN order_items oi
+    ON p.product_id = oi.product_id
+WHERE oi.order_item_id IS NULL;
