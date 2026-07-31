@@ -36,4 +36,16 @@ GROUP BY
 ORDER BY 
     total_spent DESC 
 LIMIT 5;    
-
+-- Query 4: Monthly Sales Trend
+SELECT 
+    YEAR(order_date) AS year,
+    MONTH(order_date) AS month,
+    SUM(total_amount) AS revenue
+FROM orders 
+WHERE order_status = 'Delivered'
+GROUP BY 
+    YEAR (order_date)
+    MONTH(order_date)
+ORDER BY 
+    year,
+    month;    
