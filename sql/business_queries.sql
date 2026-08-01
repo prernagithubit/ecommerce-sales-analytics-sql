@@ -79,3 +79,10 @@ FROM products p
 LEFT JOIN order_items oi
     ON p.product_id = oi.product_id
 WHERE oi.order_item_id IS NULL;
+
+-- Query 7: Average Order Value (AOV)
+
+SELECT
+    ROUND(AVG(total_amount), 2) AS average_order_value
+FROM orders
+WHERE order_status = 'Delivered';
