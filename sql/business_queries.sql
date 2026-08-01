@@ -86,3 +86,16 @@ SELECT
     ROUND(AVG(total_amount), 2) AS average_order_value
 FROM orders
 WHERE order_status = 'Delivered';
+
+
+-- Query 8: Payment Method Analysis
+
+SELECT
+    payment_method,
+    COUNT(payment_id) AS total_transactions,
+    SUM(amount) AS total_revenue,
+    ROUND(AVG(amount), 2) AS average_transaction_value
+FROM payments
+WHERE payment_status = 'Completed'
+GROUP BY payment_method
+ORDER BY total_revenue DESC;
