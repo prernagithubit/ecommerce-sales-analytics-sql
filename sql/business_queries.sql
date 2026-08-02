@@ -119,3 +119,20 @@ GROUP BY
     c.last_name
 ORDER BY
     lifetime_value DESC;
+
+-- Query 10: Top 5 Cities by Revenue
+
+SELECT
+    c.city,
+    COUNT(o.order_id) AS total_orders,
+    SUM(o.total_amount) AS total_revenue,
+    ROUND(AVG(o.total_amount), 2) AS average_order_value
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+WHERE o.order_status = 'Delivered'
+GROUP BY
+    c.city
+ORDER BY
+    total_revenue DESC
+LIMIT 5;
