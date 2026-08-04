@@ -136,3 +136,25 @@ GROUP BY
 ORDER BY
     total_revenue DESC
 LIMIT 5;
+
+-- Query 11: Customer Segmentation
+
+SELECT
+    c.customer_id,
+    CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
+    SUM(o.total_amount) AS total_spent,
+    CASE
+        WHEN SUM(o.total_amount) >= 50000 THEN 'Gold'
+        WHEN SUM(o.total_amount) >= 10000 THEN 'Silver'
+        ELSE 'Bronze'
+    END AS customer_segment
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+WHERE o.order_status = 'Delivered'
+GROUP BY
+    c.customer_id,
+    c.first_name,
+    c.last_name
+ORDER BY
+    total_spent DESC;
