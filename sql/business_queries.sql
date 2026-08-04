@@ -158,3 +158,26 @@ GROUP BY
     c.last_name
 ORDER BY
     total_spent DESC;
+
+-- Query 13: Monthly Running Revenue
+
+WITH monthly_sales AS (
+    SELECT
+        YEAR(order_date) AS sales_year,
+        MONTH(order_date) AS sales_month,
+        SUM(total_amount) AS monthly_revenue
+    FROM orders
+    WHERE order_status = 'Delivered'
+    GROUP BY
+        YEAR(order_date),
+        MONTH(order_date)
+)
+
+SELECT
+    sales_year,
+    sales_month,
+    monthly_revenue,
+    SUM(monthly_revenue) OVER (
+        ORDER BY sales_year, sales_month
+    ) AS running_revenue
+FROM monthly_sales;
