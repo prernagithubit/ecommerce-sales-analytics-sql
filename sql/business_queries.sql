@@ -208,3 +208,38 @@ SELECT
         ORDER BY sales_year, sales_month
     ) AS revenue_difference
 FROM monthly_sales;
+
+-- Query 15: Top 3 Products in Each Category
+
+WITH product_sales AS (
+    SELECT
+        c.category_name,
+        p.product_name,
+        SUM(oi.quantity * oi.unit_price) AS total_revenue,
+        DENSE_RANK() OVER (
+            PARTITION BY c.category_name
+            ORDER BY SUM(oi.quantity * oi.unit_price) DESC
+        ) AS product_rank
+    FROM order_items oi
+    JOIN products p
+        ON oi.product_id = p.product_id
+    JOIN categories c
+        ON p.category_id = c.category_id
+    JOIN orders o
+        ON oi.order_id = o.order_id
+    WHERE o.order_status = 'Delivered'
+    GROUP BY
+        c.category_name,
+        p.product_name
+)
+
+SELECT
+    category_name,
+    product_name,
+    total_revenue,
+    product_rank
+FROM product_sales
+WHERE product_rank <= 3
+ORDER BY
+    category_name,
+    product_rank;
