@@ -243,3 +243,61 @@ WHERE product_rank <= 3
 ORDER BY
     category_name,
     product_rank;
+
+-- Query 16: ABC Product Analysis
+
+WITH product_revenue AS (
+    SELECT
+        p.product_id,
+        p.product_name,
+        SUM(oi.quantity * oi.unit_price) AS total_revenue
+    FROM order_items oi
+    JOIN products p
+        ON oi.product_id = p.product_id
+    JOIN orders o
+        ON oi.order_id = o.order_id
+    WHERE o.order_status = 'Delivered'
+    GROUP BY
+        p.product_id,
+        p.product_name
+),
+
+revenue_analysis AS (
+    SELECT
+        product_id,
+        product_name,
+        total_revenue,
+
+        SUM(total_revenue) OVER (
+            ORDER BY total_revenue DESC
+        ) AS cumulative_revenue,
+
+        SUM(total_revenue) OVER () AS overall_revenue
+    FROM product_revenue
+)
+
+SELECT
+    product_id,
+    product_name,
+    total_revenue,
+
+    ROUND(
+        total_revenue / overall_revenue * 100,
+        2
+    ) AS revenue_percentage,
+
+    ROUND(
+        cumulative_revenue / overall_revenue * 100,
+        2
+    ) AS cumulative_percentage,
+
+    CASE
+        WHEN cumulative_revenue / overall_revenue <= 0.80
+            THEN 'A'
+        WHEN cumulative_revenue / overall_revenue <= 0.95
+            THEN 'B'
+        ELSE 'C'
+    END AS abc_class
+
+FROM revenue_analysis
+ORDER BY total_revenue DESC;
