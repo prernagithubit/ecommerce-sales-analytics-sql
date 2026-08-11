@@ -301,3 +301,35 @@ SELECT
 
 FROM revenue_analysis
 ORDER BY total_revenue DESC;
+
+-- Query 17: Repeat vs One-Time Customers
+
+WITH customer_orders AS (
+    SELECT
+        c.customer_id,
+        CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
+        COUNT(o.order_id) AS total_orders
+    FROM customers c
+    JOIN orders o
+        ON c.customer_id = o.customer_id
+    WHERE o.order_status = 'Delivered'
+    GROUP BY
+        c.customer_id,
+        c.first_name,
+        c.last_name
+)
+
+SELECT
+    CASE
+        WHEN total_orders = 1 THEN 'One-Time Customer'
+        ELSE 'Repeat Customer'
+    END AS customer_type,
+    COUNT(customer_id) AS number_of_customers
+FROM customer_orders
+GROUP BY
+    CASE
+        WHEN total_orders = 1 THEN 'One-Time Customer'
+        ELSE 'Repeat Customer'
+    END
+ORDER BY
+    number_of_customers DESC;
